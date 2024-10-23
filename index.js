@@ -1,41 +1,60 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON request bodies
 
-const db = new sqlite3.Database('./polls.db', (err) => {
+// Log the current working directory
+console.log('Current working directory:', process.cwd());
+
+// Create the SQLite database
+const dbPath = path.resolve(__dirname, 'polls.db');
+const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
-    console.error('Database error: ' + err.message);
+    console.error('Error opening SQLite database:', err.message);
   } else {
-    console.log('Connected to SQLite database');
+    console.log('Connected to SQLite database at', dbPath);
     
-    db.run(`
-      CREATE TABLE IF NOT EXISTS polls (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        description TEXT
-      )
-    `);
+    // Create the necessary tables if they don't exist
+    db.run(`CREATE TABLE IF NOT EXISTS polls (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT
+    )`, (err) => {
+      if (err) {
+        console.error('Error creating polls table:', err.message);
+      } else {
+        console.log('Polls table created or already exists.');
+      }
+    });
+    
+    db.run(`CREATE TABLE IF NOT EXISTS poll_options (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      poll_id INTEGER,
+      option_text TEXT,
+      FOREIGN KEY (poll_id) REFERENCES polls (id)
+    )`, (err) => {
+      if (err) {
+        console.error('Error creating poll_options table:', err.message);
+      } else {
+        console.log('Poll options table created or already exists.');
+      }
+    });
 
-    db.run(`
-      CREATE TABLE IF NOT EXISTS poll_options (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        poll_id INTEGER,
-        option_text TEXT,
-        FOREIGN KEY (poll_id) REFERENCES polls(id)
-      )
-    `);
-
-    db.run(`
-      CREATE TABLE IF NOT EXISTS votes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        poll_option_id INTEGER,
-        FOREIGN KEY (poll_option_id) REFERENCES poll_options(id)
-      )
-    `);
+    db.run(`CREATE TABLE IF NOT EXISTS votes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      poll_option_id INTEGER,
+      FOREIGN KEY (poll_option_id) REFERENCES poll_options (id)
+    )`, (err) => {
+      if (err) {
+        console.error('Error creating votes table:', err.message);
+      } else {
+        console.log('Votes table created or already exists.');
+      }
+    });
   }
 });
 
@@ -78,7 +97,7 @@ app.get('/polls/:id', (req, res) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      res.json({ poll, options });
+      res.json({ ...poll, options });
     });
   });
 });
