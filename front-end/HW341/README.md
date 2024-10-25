@@ -1,8 +1,15 @@
-# React + Vite
+The Tesla Cybertruck is an all-electric, battery-powered light-duty truck unveiled by Tesla, Inc.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Here's a comprehensive overview of its key features and specifications:
 
-Currently, two official plugins are available:
+Tesla Cybertruck Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Design and Structure
+
+• Exterior: The Cybertruck has a distinctive, angular, stainless steel exoskeleton design for durability and passenger protection. It features ultra-hard 30X cold-rolled stainless steel and armored glass.
+
+• Dimensions: Approximately 231.7 inches long, 79.8 inches wide, and 75 inches tall, with a 6.5-foot cargo bed.
+
+Performance and Variants
+
+• Single Motor RWD: ◦ 0-60 mph: ~6.5 seconds ◦ Range: ~250 miles ◦ Towing Capacity: 7,500 pounds • Dual Motor AWD: ◦ 0-60 mph: ~4.5 seconds ◦ Range: ~300 miles ◦ Towing Capacity: 10,000 pounds • Tri-Motor AWD: ◦ 0-60 mph: ~2.9 seconds ◦ Range: ~500 miles ◦ Towing Capacity: 14,000 pounds
