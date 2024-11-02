@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({ setIsAuthenticated }) {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email === "user123@gmail.com" && password === "psw123") {
+      setIsAuthenticated(true);
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
           Login to Your Account
         </h2>
-        <form action="#" method="get" className="space-y-4">
+        <form
+          onSubmit={handleLogin}
+          action="#"
+          method="get"
+          className="space-y-4"
+        >
           <div>
             <label
               htmlFor="email"
@@ -18,6 +38,8 @@ function Login() {
             <input
               type="email"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -32,6 +54,8 @@ function Login() {
             <input
               type="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -46,7 +70,12 @@ function Login() {
         </form>
         <p className="mt-6 text-gray-600 text-center">
           Don’t have an account?{" "}
-          <a href="#" className="text-blue-500 hover:underline">
+          <a
+            onClick={() => {
+              navigate("/signup");
+            }}
+            className="text-blue-500 hover:underline"
+          >
             Sign up
           </a>
         </p>

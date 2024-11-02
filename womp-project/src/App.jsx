@@ -3,25 +3,32 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./utils/PrivateRoute";
+import Welcome from "./pages/Welcome";
+import PrivateRoute from "./utils/PrivateRouter";
 
 function App() {
-  const [auth, setAuth] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route 
-          path="/"
-          element={
-            <PrivateRoute auth={auth}>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route
+            path="/login"
+            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }
